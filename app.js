@@ -27,8 +27,45 @@ class Wordplay{
         rootWord = sixLetterDictMap[rand];
     }
     
-    findAllSubsets(){
-    
+    findAllSubsets(word){ //pass in rootWord because this may alter it???
+        let subsets = []; // hold all combinations 
+        for(let i = 0; (i < word.length); i++){
+            let letterAtI = word.substr(i, 1);
+            let leftoverLetters = word.replace(letterAtI, "");
+            
+            for(j=0; j<word.length; j++){
+                if(j === i){ //if  we are adding is the word we already added
+                    j ++;
+                }
+                let letterAtJ = word.substr(j, 1);
+                let twoLetterCombo = letterAtI + letterAtJ;
+                leftoverLetters = leftoverLetters.replace(letterAtJ, "");
+               
+                subsets = makeCombos(twoLetterCombo, leftoverLetters, [rootWord]);
+
+                
+            }
+        }
+        return subsets;
+    }
+
+    makeCombos(currentCombo, leftoverLetters, subSet){//return a combo
+        if(leftoverLetters.length === 1){
+            return subSet;
+        }
+        else{
+            for(let i = 0; i< leftoverLetters.length; i ++){
+                let letter = leftoverLetters.substr(i,1);
+                let newCurrCombo = currentCombo + letter;
+                let newLeftOvers = leftoverLetters.replace(letters, "");
+                subSet.push(newCurrentCombo);
+                this.makeCombos(newCurrCombo, newLeftOvers, subSet);
+
+            }
+        }
+        
+
+
     }
     
     
