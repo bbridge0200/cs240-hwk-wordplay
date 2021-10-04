@@ -28,20 +28,17 @@ class Wordplay{
     }
     
     findAllSubsets(word){ //pass in rootWord because this may alter it???
-        let subsets = []; // hold all combinations 
+        let subsets = [rootWord]; // hold all combinations 
         for(let i = 0; (i < word.length); i++){
             let letterAtI = word.substr(i, 1);
             let leftoverLetters = word.replace(letterAtI, "");
             
-            for(j=0; j<word.length; j++){
-                if(j === i){ //if  we are adding is the word we already added
-                    j ++;
-                }
-                let letterAtJ = word.substr(j, 1);
+            for(j=0; j<leftoverLetters.length; j++){
+                
+                let letterAtJ = leftoverLetters.substr(j, 1);
                 let twoLetterCombo = letterAtI + letterAtJ;
-                leftoverLetters = leftoverLetters.replace(letterAtJ, "");
-               
-                subsets = makeCombos(twoLetterCombo, leftoverLetters, [rootWord]);
+                let newLeftoverLetters = leftoverLetters.replace(letterAtJ, "");
+                subsets.concat(makeCombos(twoLetterCombo, newLeftoverLetters, []));
 
                 
             }
