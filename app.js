@@ -1,31 +1,41 @@
-class Wordplay{
 
-    constructor(dictionary){
-        const dictionaryMap = {}; //(word, word.length) pairs for words smaller than 6 letters)
-        const sixLetterDictMap = [];//array of all 6 letter words
-        const rootWord = "";
-        let workingWordSubset = [];
-    }
+
+   //User interx/running the game: 
+    
+//wp.pickRootWord();
+        this.dictMap = new Map(); //(word, word.length) pairs for words smaller than 6 letters)
+        this.sixLetterDictMap = [];//array of all 6 letter words
+        this.rootWord = "";
+        this.workingWordSubset = [];
+        this.lengthOfDict = dictionary.length;
+    
+        makeDictionary();
     
     
-    
-    makeDictionary(){
-        for(word of this.dictionary){
+    function makeDictionary(){
+        for(let i = 0; i < (this.lengthOfDict); i++){
+            const word = dictionary[i];
             const length = word.length;
             if(length < 6){
-            dictionaryMap[word] = word.length;
+            dictMap.set(word, word.length);
             }
             if(length === 6){
                 sixLetterDictMap.push(word);
             }
         }
+        console.log("dictionary Map of words => word length");
+        
+        dictMap.forEach(function(value,key){console.log("("+ value + ","+ key);})
+    
+        console.log("six letter dict map, array");
+        console.log(sixLetterDictMap.toString());
     }
-    pickRootWord(){
+    function pickRootWord(){
         let rand = Math.floor(Math.random()*(sixLetterDictMap.length + 1)); 
         rootWord = sixLetterDictMap[rand];
     }
     
-    findAllSubsets(word){ //pass in rootWord because this may alter it???
+    function findAllSubsets(word){ //pass in rootWord because this may alter it???
         let subsets = [rootWord]; // hold all combinations 
         for(let i = 0; (i < word.length); i++){
             let letterAtI = word.substr(i, 1);
@@ -44,7 +54,7 @@ class Wordplay{
         return subsets;
     }
 
-    makeCombos(currentCombo, leftoverLetters, subSet){//return a combo
+    function makeCombos(currentCombo, leftoverLetters, subSet){//return a combo
         if(leftoverLetters.length === 1){
             return subSet;
         }
@@ -62,13 +72,13 @@ class Wordplay{
 
 
     }
-    addWordIfValid(word){
+    function addWordIfValid(word){
         if(word in myDict){//null
             workingWordSubset.push(word);
         }
     }
 
-    stringifyWords(word){
+    function stringifyWords(word){
         let str = "";
         for(let i = 0; i < word.length; i ++){
             str + "- ";
@@ -77,17 +87,29 @@ class Wordplay{
 
     }
 
-    isCorrectGuess(){
+    function isCorrectGuess(guess){
+        if (guess in workingWordSubset){
+            return true; 
+        }
 
     }
 
 
-    scramble(word){
+    function scramble(word){
+        let arrString = word.split();
+        let length = word.length
+        for(let i = 0; i < length; i++){
+            let rand = Math.floor(Math.random()*(length));
+            let temp = arrString[rand];
+            arrString[rand] = arrString[i];
+            arrString[i] = temp;
+        }
+        return arrString.join('');
 
     }
     
 
 
-}
+
 
 
