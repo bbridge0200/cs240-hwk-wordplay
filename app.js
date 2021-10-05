@@ -4,12 +4,14 @@
     
 //wp.pickRootWord();
         this.dictMap = new Map(); //(word, word.length) pairs for words smaller than 6 letters)
-        this.sixLetterDictMap = [];//array of all 6 letter words
+        this.sixLetterDict = [];//array of all 6 letter words
         this.rootWord = "";
         this.workingWordSubset = new Map();
         this.lengthOfDict = dictionary.length;
     
         makeDictionary();
+        pickRootWord();
+        console.log(rootWord);
     
     
     function makeDictionary(){
@@ -20,14 +22,16 @@
             dictMap.set(word, word.length);
             }
             if(length === 6){
-                sixLetterDictMap.push(word);
+                sixLetterDict.push(word);
             }
         }
         
     }
     function pickRootWord(){
-        let rand = Math.floor(Math.random()*(sixLetterDictMap.length + 1)); 
-        rootWord = sixLetterDictMap[rand];
+        console.log(sixLetterDict);
+        let rand = Math.floor(Math.random()*(sixLetterDict.length )); 
+        console.log(rand);
+        rootWord = sixLetterDict[rand];
     }
     
     function findAllSubsets(){ //pass in rootWord because this may alter it???
