@@ -8,12 +8,17 @@
         this.rootWord = "";
         this.workingWordSubset = new Map();
         this.lengthOfDict = dictionary.length;
-    
+        //console.log(stringifyWords("xxx"));
+        
         makeDictionary();
         pickRootWord();
         console.log(rootWord);
         findAllSubsets();
-        console.log(workingWordSubset);
+        console.log(workingWordSubset); 
+        console.log(scramble(rootWord));
+        console.log(scramble(rootWord));
+        console.log(scramble(rootWord));
+        console.log(scramble(rootWord));
         /* let x = findAllSubsets();
         for (let i = 0; i < (x.length); i ++){
             //console.log(x[i]);
@@ -92,12 +97,11 @@
    
 
     function stringifyWords(word){
-        let str = "";
+        let str1 = "";
         for(let i = 0; i < word.length; i ++){
-            str + "- ";
+            str1 = str1.concat("- ");
         }
-        
-        return str;
+        return str1;
     }
 
     
@@ -106,8 +110,8 @@
 
 
     function scramble(word){
-        let arrString = word.split();
-        let length = word.length
+        let arrString = word.split("");
+        let length = word.length;
         for(let i = 0; i < length; i++){
             let rand = Math.floor(Math.random()*(length));
             let temp = arrString[rand];
