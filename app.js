@@ -1,31 +1,32 @@
 
-
-   //User interx/running the game: 
-    
-//wp.pickRootWord();
-        this.dictMap = new Map(); //(word, word.length) pairs for words smaller than 6 letters)
+        this.dictMap = new Map(); //(word=> word.length) pairs for words smaller than 6 letters)
         this.sixLetterDict = [];//array of all 6 letter words
         this.rootWord = "";
-        this.workingWordSubset = new Map();
-        this.lengthOfDict = dictionary.length;
-        //console.log(stringifyWords("xxx"));
+        this.workingWordSubset = new Map();//stores (word => string to be printed to user)
+
         
         makeDictionary();
         pickRootWord();
-        console.log(rootWord);
+        console.log(scramble(rootWord));
         findAllSubsets();
-        console.log(workingWordSubset); 
-        console.log(scramble(rootWord));
-        console.log(scramble(rootWord));
-        console.log(scramble(rootWord));
-        console.log(scramble(rootWord));
-        /* let x = findAllSubsets();
-        for (let i = 0; i < (x.length); i ++){
-            //console.log(x[i]);
+        workingWordSubset.forEach(function(key,value){
+                console.log(key);
+        })
+        let input = prompt(someString);
+        let currCorrGuess = 0;
+        while((input != null)&& currCorrGuess < workingWordSubset.size){
+            if(input.length < 3 || input.length > 6){
+                alert("Your word is the wrong size!");
+            }
+            if(!dictMap.has(input)){
+                alert("Not a valid word!");
+            }
         }
-         */
+        
+
+        
     function makeDictionary(){
-        for(let i = 0; i < (this.lengthOfDict); i++){
+        for(let i = 0; (i < dictionary.length); i++){
             const word = dictionary[i];
             const length = word.length;
             if(length <= 6){
@@ -43,15 +44,9 @@
     }
     
     function findAllSubsets(){ 
-        // hold all combinations 
-
         for(let i = 0; (i < rootWord.length); i++){
             let letterAtI = rootWord.substr(i, 1);
-            //console.log("letterAtI ");
-            //console.log(letterAtI);
             let leftoverLetters = rootWord.replace(letterAtI, "");
-            //console.log("leftoverletters ");
-            //console.log(leftoverLetters);
             
            
             makeCombos(letterAtI, leftoverLetters, []);
@@ -61,27 +56,18 @@
         }
     }
 
-    function makeCombos(currentCombo, leftoverLetters, subSet){//return a combo
+    function makeCombos(currentCombo, leftoverLetters, subSet){
         if(leftoverLetters.length < 1){
-            //console.log("all done");
             return true;
             
         }
         else{
-            //console.log("forloop");
             for(let i = 0; i< leftoverLetters.length; i ++){
                 let letter = leftoverLetters.substr(i,1);
-                //console.log("letter");
-                //console.log(letter);
                 let newCurrCombo = currentCombo + letter;
-                //console.log("new curr combo");
-                //console.log(newCurrCombo);
-                let newLeftOvers = leftoverLetters.replace(letter, "");//splice and replace with nothing
-                //console.log("newleftovers");
-                //console.log(newLeftOvers);
+                let newLeftOvers = leftoverLetters.replace(letter, "");
                 if((dictMap.has(newCurrCombo)) && (newCurrCombo.length > 2)){
                     workingWordSubset.set(newCurrCombo, stringifyWords(newCurrCombo));
-                    //console.log("pushed");
                 }
                    
                 makeCombos(newCurrCombo, newLeftOvers, subSet);
@@ -117,6 +103,9 @@
             let temp = arrString[rand];
             arrString[rand] = arrString[i];
             arrString[i] = temp;
+        }
+        if(dictMap.has(arrString)){
+            scramble(arrString);
         }
         return arrString.join('');
 
