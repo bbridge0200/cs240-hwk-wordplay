@@ -6,7 +6,7 @@
         this.dictMap = new Map(); //(word, word.length) pairs for words smaller than 6 letters)
         this.sixLetterDictMap = [];//array of all 6 letter words
         this.rootWord = "";
-        this.workingWordSubset = [];
+        this.workingWordSubset = new Map();
         this.lengthOfDict = dictionary.length;
     
         makeDictionary();
@@ -16,30 +16,26 @@
         for(let i = 0; i < (this.lengthOfDict); i++){
             const word = dictionary[i];
             const length = word.length;
-            if(length < 6){
+            if(length <= 6){
             dictMap.set(word, word.length);
             }
             if(length === 6){
                 sixLetterDictMap.push(word);
             }
         }
-        console.log("dictionary Map of words => word length");
         
-        dictMap.forEach(function(value,key){console.log("("+ value + ","+ key);})
-    
-        console.log("six letter dict map, array");
-        console.log(sixLetterDictMap.toString());
     }
     function pickRootWord(){
         let rand = Math.floor(Math.random()*(sixLetterDictMap.length + 1)); 
         rootWord = sixLetterDictMap[rand];
     }
     
-    function findAllSubsets(word){ //pass in rootWord because this may alter it???
-        let subsets = [rootWord]; // hold all combinations 
-        for(let i = 0; (i < word.length); i++){
-            let letterAtI = word.substr(i, 1);
-            let leftoverLetters = word.replace(letterAtI, "");
+    function findAllSubsets(){ //pass in rootWord because this may alter it???
+        let subsets = []; // hold all combinations 
+
+        for(let i = 0; (i < rootWord.length); i++){
+            let letterAtI = rootWord.substr(i, 1);
+            let leftoverLetters = rootWord.replace(letterAtI, "");
             
             for(j=0; j<leftoverLetters.length; j++){
                 
@@ -55,7 +51,7 @@
     }
 
     function makeCombos(currentCombo, leftoverLetters, subSet){//return a combo
-        if(leftoverLetters.length === 1){
+        if(leftoverLetters.length < 1){
             return subSet;
         }
         else{
@@ -73,8 +69,8 @@
 
     }
     function addWordIfValid(word){
-        if(word in myDict){//null
-            workingWordSubset.push(word);
+        if(dictMap.has(word)){
+            workingWordSubset.set(word, stringifyWords(word));
         }
     }
 
@@ -84,15 +80,12 @@
             str + "- ";
         }
         
-
+        return str;
     }
 
-    function isCorrectGuess(guess){
-        if (guess in workingWordSubset){
-            return true; 
-        }
+    
 
-    }
+    
 
 
     function scramble(word){
