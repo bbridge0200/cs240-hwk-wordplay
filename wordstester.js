@@ -3,10 +3,13 @@
 const dictionary = [
 "erg",
 "egg",
+"log",
 "eg",
 "ore",
 "roe",
 "ego",
+"ero",
+"rego",
 "ergo",
 "gore",
 "logger",

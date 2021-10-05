@@ -12,8 +12,13 @@
         makeDictionary();
         pickRootWord();
         console.log(rootWord);
-    
-    
+        findAllSubsets();
+        console.log(workingWordSubset);
+        /* let x = findAllSubsets();
+        for (let i = 0; i < (x.length); i ++){
+            //console.log(x[i]);
+        }
+         */
     function makeDictionary(){
         for(let i = 0; i < (this.lengthOfDict); i++){
             const word = dictionary[i];
@@ -28,43 +33,55 @@
         
     }
     function pickRootWord(){
-        console.log(sixLetterDict);
         let rand = Math.floor(Math.random()*(sixLetterDict.length )); 
-        console.log(rand);
         rootWord = sixLetterDict[rand];
     }
     
-    function findAllSubsets(){ //pass in rootWord because this may alter it???
-        let subsets = []; // hold all combinations 
+    function findAllSubsets(){ 
+        // hold all combinations 
 
         for(let i = 0; (i < rootWord.length); i++){
             let letterAtI = rootWord.substr(i, 1);
+            //console.log("letterAtI ");
+            //console.log(letterAtI);
             let leftoverLetters = rootWord.replace(letterAtI, "");
+            //console.log("leftoverletters ");
+            //console.log(leftoverLetters);
             
-            for(j=0; j<leftoverLetters.length; j++){
-                
-                let letterAtJ = leftoverLetters.substr(j, 1);
-                let twoLetterCombo = letterAtI + letterAtJ;
-                let newLeftoverLetters = leftoverLetters.replace(letterAtJ, "");
-                subsets.concat(makeCombos(twoLetterCombo, newLeftoverLetters, []));
+           
+            makeCombos(letterAtI, leftoverLetters, []);
 
                 
-            }
+            
         }
-        return subsets;
     }
 
     function makeCombos(currentCombo, leftoverLetters, subSet){//return a combo
         if(leftoverLetters.length < 1){
-            return subSet;
+            //console.log("all done");
+            return true;
+            
         }
         else{
+            //console.log("forloop");
             for(let i = 0; i< leftoverLetters.length; i ++){
                 let letter = leftoverLetters.substr(i,1);
+                //console.log("letter");
+                //console.log(letter);
                 let newCurrCombo = currentCombo + letter;
+                //console.log("new curr combo");
+                //console.log(newCurrCombo);
                 let newLeftOvers = leftoverLetters.replace(letter, "");//splice and replace with nothing
-                subSet.push(newCurrentCombo);
-                return this.makeCombos(newCurrCombo, newLeftOvers, subSet);
+                //console.log("newleftovers");
+                //console.log(newLeftOvers);
+                if((dictMap.has(newCurrCombo)) && (newCurrCombo.length > 2)){
+                    workingWordSubset.set(newCurrCombo, stringifyWords(newCurrCombo));
+                    //console.log("pushed");
+                }
+                   
+                makeCombos(newCurrCombo, newLeftOvers, subSet);
+                
+                
 
             }
         }
@@ -72,11 +89,7 @@
 
 
     }
-    function addWordIfValid(word){
-        if(dictMap.has(word)){
-            workingWordSubset.set(word, stringifyWords(word));
-        }
-    }
+   
 
     function stringifyWords(word){
         let str = "";
