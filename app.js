@@ -4,15 +4,13 @@ class Wordplay{
         const dictionaryMap = {}; //(word, word.length) pairs for words smaller than 6 letters)
         const sixLetterDictMap = [];//array of all 6 letter words
         const rootWord = "";
-        const myDict = dictionary;
+        let workingWordSubset = [];
     }
     
     
     
-    
-    
     makeDictionary(){
-        for(word of this.myDict){
+        for(word of this.dictionary){
             const length = word.length;
             if(length < 6){
             dictionaryMap[word] = word.length;
@@ -54,9 +52,9 @@ class Wordplay{
             for(let i = 0; i< leftoverLetters.length; i ++){
                 let letter = leftoverLetters.substr(i,1);
                 let newCurrCombo = currentCombo + letter;
-                let newLeftOvers = leftoverLetters.replace(letters, "");
+                let newLeftOvers = leftoverLetters.replace(letter, "");//splice and replace with nothing
                 subSet.push(newCurrentCombo);
-                this.makeCombos(newCurrCombo, newLeftOvers, subSet);
+                return this.makeCombos(newCurrCombo, newLeftOvers, subSet);
 
             }
         }
@@ -64,7 +62,29 @@ class Wordplay{
 
 
     }
-    
+    addWordIfValid(word){
+        if(word in myDict){//null
+            workingWordSubset.push(word);
+        }
+    }
+
+    stringifyWords(word){
+        let str = "";
+        for(let i = 0; i < word.length; i ++){
+            str + "- ";
+        }
+        
+
+    }
+
+    isCorrectGuess(){
+
+    }
+
+
+    scramble(word){
+
+    }
     
 
 
